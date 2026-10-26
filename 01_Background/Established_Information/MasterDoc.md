@@ -86,6 +86,11 @@ The software processes ultrasound recordings in two primary views, treating each
 - **Architecture Goal:** Transition from `Video -> Danny Green -> CSV -> PM` to a setup where PM utilizes our software.
 - **Interaction Model:** The software will operate as a standalone service. PhysioMerge will call the software (e.g., via CLI), execute commands, and provide the data as necessary.
 - **Existing PM Capabilities to Leverage:** Real-time CSV building, morphology calculations (per cardiac cycle), measurements (mean, systole, diastole), data deletion/filtering for messy signals, error correction via PM's `check` command.
+- **Invocation:** PM calls our software. We are not called as a package or imported by PM. We act as a black box that takes input and returns output, so other systems could use us the same way.
+- **Output Format:** PM expects a CSV with metadata at the top and the biometric data below, so this is what we return when PM calls us. The exact format is not yet defined.
+- **Video Source:** Our application is not concerned with where the video comes from.
+- **New PM Commands:** If we need a command PM doesn't have, we contribute it directly to PM so everyone benefits. This is expected to be very unlikely, since PM already covers what we need.
+- **Deleted Data:** PM automatically cleans messy data and records whether data was deleted as a true/false flag in the file metadata. PM keeps the log of what was deleted so it can be reviewed later and is never lost. We receive this field and do not log deletions ourselves.
 
 ### 2.6 Validation & Testing Baseline
 
