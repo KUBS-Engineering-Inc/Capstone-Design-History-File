@@ -199,14 +199,14 @@ The test plan should cover the main functional components below:
   - Ex translation of pixels, saturation
 - **Decode** (in frame processing): computational process of taking compressed instructions and performing math calculations to rebuild a full viewable grid of pixels
 - **Demuxe**: split a video file into its separate video & audio tracks (muxe = combining)
-YOLO (You Only Look Once): deep learning model family for real-time object detection
+- **YOLO** (You Only Look Once): deep learning model family for real-time object detection
   - Looks at entire image once, predicting bounding boxes & class labels
 - **Optical Character Recognition (OCR)**: software that translates images of typed/handwritten text into machine-encoded text 
 
 ### Primary Requirements/Considerations:
 1. **Ingest.mp4 files**: Accept .mp4 files as input and convert to frames for processing.
 2. **Dynamic screen segmentation**: identify and segment different components captured in each frame, where each image may or may not contain a B-mode ultrasound image, the Doppler waveform, and ECG data, or some combination of two or three.
-3. **B-mode outputs**: identify blood vessel structures in transverse or longitudinal views, take measurements like perpendicular diameter and cross-sectional area respectively
+3. **B-mode outputs**: identify blood vessel structures in transverse or longitudinal views, take measurements like perpendicular diameter and cross-sectional area respectively.
 4. **Doppler outputs**: envelope trace, handle inverted image, phase identification. 
 
 ## Ingesting MP4 Files
@@ -248,7 +248,7 @@ YOLO (You Only Look Once): deep learning model family for real-time object detec
   - Executes video demuxing & decoding with less CPU overhead
   - Steeper learning curve
   - Manually handle streams, packets, frames & explicitly convert output to standard NumPy if needed
-- Ex if we had 500 ultrasound mp4s, PyAV offers:
+- Ex if we had 500 ultrasound mp4 videos, PyAV offers:
   - Efficient frame seeking & downsampling (ie. if we only need 5 FPS instead of 30)
   - Multiprocessing: handles multithreading better, less constrained by Python’s GIL during decoding phase — we can spin up multiple worker processes where each uses PyAV to decode a different mp4 in parallel
   - Access to audio stream (if future work needs the audio signal for Doppler shift)
@@ -257,7 +257,7 @@ YOLO (You Only Look Once): deep learning model family for real-time object detec
 
 ### Planning
 - Not necessary to decide immediately — can implement an adapter pattern
-  - Ex use a VideoLoader class, starting with one of them in the init arbitrarily for MVP
+  - Ex use a VideoLoader class, starting with one of them arbitrarily for MVP (probably OpenCV)
 - Work on other components first — FFmpeg packet logic may be more complex and low priority as key features won’t know the difference
 
 ## Dynamic Screen Segmentation
@@ -291,21 +291,21 @@ YOLO (You Only Look Once): deep learning model family for real-time object detec
   - Take a stack of video frames
   - Calculate mathematical variance of each individual’s pixel intensity across time
   - Draw bounding box around bright “blobs”
-- Assumes background, UI borders, scales/text don’t move → variance is exactly zero vs B=mode imaging of pulsating blood vessels and sweeping waveforms (dopper) constantly changing → higher variance
+- Assumes background, UI borders, scales/text don’t move → variance is exactly zero vs B-mode imaging of pulsating blood vessels and sweeping waveforms (doppler) constantly changing → higher variance
 - Set up cost: zero — no training data required, works purely on math
 - Struggles to handle opening/closing and changing in sizes of windows robustly
 
 ### Assumption - Static Scale Lines
 
-- Assuming that do not change and stay in their position per view combination, we only have a few main configurations:
-  - B-mode only: b-mode scale on right edge (blue?)
-  - Doppler/ECG only or both: scale on left edge (white?)
+- Assuming that scales do not change and stay in their position per view combination, we only have a few main configurations:
+  - B-mode only: b-mode scale on right edge (blue)
+  - Doppler/ECG only or both: scale on left edge (white)
   - B mode + Doppler and/or ECG: B-mode scale on right edge, extending from top edge to halfway down the screen, Doppler/ECG scale on left edge, extending from middle to bottom edge
 - Key features:
   - Doppler Y-axis has perfectly vertical stack of identical white dashes with numbers on the left
-  - Doppler Y-axis labelled with “Velocity (cm/s)
+  - Doppler Y-axis labelled with “Velocity (cm/s)"
   - B-mode Y-axis = blue tick, aligned right
-- Use *Regions of Interes*t:
+- Use *Regions of Interest*:
   - B mode ROI: tall, narrow rectangle on top right edge of the screen
     - Sum the nonblack pixels in the ROI, if passes a certain threshold, scale is there and B mode is active
   - Doppler ROI: tall, narrow rectangle near the bottom left edge of the screen
@@ -444,14 +444,3 @@ If a new command is needed, it is contributed directly to PM. This is not expect
 - Command names and syntax
 - Invocation details beyond CLI
 - Error handling on our end
-
-# General Questions
-- We wanted to confirm that the vertical line is the direction of the doppler and then parallel lines are to be lined up with the vessel walls.
-- confirm which formats video will show (e.g., we will never get only ecg)
-- confirm where the code is so we can analyze the functions that we'll be getting info from
-- confirm the exact outputs he wants from the system, see if he can send the danny green output but also confirm other stuff that will be in the system (e.g., we're basically just giving one data output for which physiological outputs?)
-- Does depth measurement stay in the same location ont he sidebar?
-- Does the sidebar ever move?
-- Window combinations?
-- Is the scale for the ultrasound always on the right, in the same place? Is the scale for the doppler always the left? ie. when they're open, are they statically positioned?
-- How would Taha label bounding boxes?
