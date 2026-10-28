@@ -11,6 +11,7 @@ Help the team write and maintain documentation: milestones, planning assets, mee
 - `01_Background/Established_Information/MasterDoc.md` is the authoritative record of confirmed project facts (scope, views, hardware, input data, PM integration, validation baseline). Read it first for any technical content.
 - If a fact isn't in the master doc, say so and keep that section brief rather than filling it with assumptions or future plans worded as if decided. Flag gaps so the user can supply or confirm the information.
 - Meeting notes in `02_Meetings/` are raw inputs. Don't promote anything from them into deliverables unless the user says to, because the master doc is meant to hold only what the team has established.
+- To update the master doc from a meeting file, use the `meeting-to-masterdoc` skill (`/meeting-to-masterdoc`). Its instructions live in `.agents/skills/meeting-to-masterdoc/SKILL.md`; `.claude/skills/` only holds a wrapper that points there, so edit the `.agents/` file.
 - `00_Admin/Project_Plan/2026-10-02_Fall_Work_Breakdown.md` defines task IDs (F1–F12, D, L, T, G) and the milestone mapping. Reference those IDs when a deliverable corresponds to one.
 
 ## Layout
