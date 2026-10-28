@@ -48,66 +48,81 @@ A general-purpose harness for testing the functionality of the system on any ult
 
 ## Requirements
 
-- Accept any ultrasound video the system accepts as input.
-- Test the system's functionality, from measurement extraction (diameter, CSA, velocity) to calculations (e.g. volumetric blood flow) and the other processing the system performs.
-- Run the same tests on any video without being tuned to a specific one.
-- Compare system output against ground truth where it exists.
-- Report results in a form the team can review.
-- Initial verification is on the FMD video.
+| ID | Type | Requirement Description |
+| :--- | :--- | :--- |
+| **F.TES-1** | Functional | Accept any ultrasound video the system accepts as input. |
+| **F.TES-2** | Functional | Test the system's functionality, from measurement extraction (diameter, CSA, velocity) to calculations (e.g. volumetric blood flow) and the other processing the system performs. |
+| **F.TES-3** | Functional | Run the same tests on any video without being tuned to a specific one. |
+| **F.TES-4** | Functional | Compare system output against ground truth where it exists. |
+| **F.TES-5** | Functional | Report results in a form the team can review. |
+| **F.TES-6** | Functional | Initial verification is on the FMD video. |
 
 ## To be defined
 
-- Ground truth format
-- Metrics and accuracy targets
-- Full list of functions under test
-
+| ID | Type | Requirement Description |
+| :--- | :--- | :--- |
+| **TBD.TES-1** | To Be Defined | Ground truth format. |
+| **TBD.TES-2** | To Be Defined | Metrics and accuracy targets. |
+| **TBD.TES-3** | To Be Defined | Full list of functions under test. |
 
 ## UI Requirements
 
 ### Functional Requirements
 
-  - F.GUI-1 (Interactive Review & Correction): The system shall provide an interactive GUI enabling human review and manual override of automated edge-detection measurements. 
-  - F.GUI-2 (Augmented Visual Spline): The GUI shall project an augmented, high-contrast visual edge-detection spline over the original B-mode ultrasound video. 
-  - F.GUI-3 (Candidate Selection Display): The GUI shall visually distinguish the primary detected vessel boundary while keeping alternative candidate boundaries selectable by the operator. 
-  - F.GUI-4 (Operational State Management): The GUI shall provide dedicated controls for operational states: Process, Edit, Pause, Cancel, and Undo. 
-  - F.GUI-5 (Dual-Track Revision Logging): The system shall log and preserve original machine calculations alongside human manual edits for full audit traceability. 
-  - F.GUI-6 (ROI Bounding Box Interaction): The GUI shall display and allow interactive verification of the green "Z" bounding box and region of interest (ROI) placed around vessel walls. 
+| ID | Type | Requirement Description |
+| :--- | :--- | :--- |
+| **F.GUI-1** | Functional | The system shall provide an interactive GUI enabling human review and manual override of automated edge-detection measurements. |
+| **F.GUI-2** | Functional | The GUI shall project an augmented, high-contrast visual edge-detection spline over the original B-mode ultrasound video. |
+| **F.GUI-3** | Functional | The GUI shall visually distinguish the primary detected vessel boundary while keeping alternative candidate boundaries selectable by the operator. |
+| **F.GUI-4** | Functional | The GUI shall provide dedicated controls for operational states: Process, Edit, Pause, Cancel, and Undo. |
+| **F.GUI-5** | Functional | The system shall log and preserve original machine calculations alongside human manual edits for full audit traceability. |
+| **F.GUI-6** | Functional | The GUI shall display and allow interactive verification of the green "Z" bounding box and region of interest (ROI) placed around vessel walls. |
 
 ### Non-Functional Requirements
 
-  - NF.GUI-1 (Display Latency): Augmented edge-detection spline overlay shall be rendered with a system display latency < 100 ms. 
-  - NF.GUI-2 (Workload Responsiveness): The GUI shall remain fully responsive to user input and window scaling during active video processing without UI thread blocking. 
-  - NF.GUI-3 (Application Startup Time): The software GUI shall initialize into a ready state within 10 seconds on standard lab desktop workstations. 
-  - NF.GUI-4 (Visual Contrast & Ergonomics): The interface shall use a high-contrast visual palette ensuring overlay lines remain legible across variable greyscale ultrasound backgrounds. 
-  - NF.GUI-5 (Display Invariance): UI layout, controls, and video overlays shall render consistently across standard monitor resolutions and aspect ratios. 
-  - NF.GUI-6 (Session Caching): Active ROI parameters and session configurations shall be cached to prevent data loss upon accidental window minimization or closing. 
-  - NF.GUI-7 (Error Communication): The GUI shall display clear, non-technical error notifications when encountering corrupted files or unsupported video formats.
+| ID | Type | Requirement Description |
+| :--- | :--- | :--- |
+| **NF.GUI-1** | Non-Functional | Augmented edge-detection spline overlay shall be rendered with a system display latency < 100 ms. |
+| **NF.GUI-2** | Non-Functional | The GUI shall remain fully responsive to user input and window scaling during active video processing without UI thread blocking. |
+| **NF.GUI-3** | Non-Functional | The software GUI shall initialize into a ready state within 10 seconds on standard lab desktop workstations. |
+| **NF.GUI-4** | Non-Functional | The interface shall use a high-contrast visual palette ensuring overlay lines remain legible across variable greyscale ultrasound backgrounds. |
+| **NF.GUI-5** | Non-Functional | UI layout, controls, and video overlays shall render consistently across standard monitor resolutions and aspect ratios. |
+| **NF.GUI-6** | Non-Functional | Active ROI parameters and session configurations shall be cached to prevent data loss upon accidental window minimization or closing. |
+| **NF.GUI-7** | Non-Functional | The GUI shall display clear, non-technical error notifications when encountering corrupted files or unsupported video formats. |
 
 ## Output Requirements
 
-1. PhysioMerge-Specific Outputs and Integration
-  - *PhysioMerge Integration:* Compatible with CSV exports that capture all extracted and calculated metrics.
-  - *Vessel Diameter:* Extracted perpendicular to vascular walls in longitudinal views.
-  - *Vessel Cross-Sectional Area:* Calculated for circular vessels in transverse views using edge detection.
-  - *Time-Averaged Blood Velocity:* Extracted from the white Doppler waveform.
-  - *Estimated Volumetric Blood Flow Rate:* Calculated using the extracted velocity and diameter (targeted in mL/min).
-  - *Physical Pixel Scale/Calibration:* Derived from reading on-screen depth and velocity rulers (to within 1mm accuracy).
-  - *Recording Timeline/Timestamp Tracking:* Time elapsed/processed across the Doppler and video timeline.
-  - *ECG/Cardiac Signals:* Separated green ECG trace for cycle/diastole synchronization.
-  - *Command Line Interface (CLI) Callable:* Integrate with software by calling it directly as CLI arguments for batch-processing pipelines.
+### PhysioMerge-Specific Outputs and Integration
 
-2. GUI Outputs & Display Features
-  - *Augmented Video Overlay:* GUI displays an augmented, high-contrast visual edge-detection spline projected directly on top of the greyscale B-mode ultrasound video with low-latency and best vessel candidate detected from B-mode view.
-  - *Track Revision History:* If researcher manually adjusts or edits an automated measurement, GUI preserves original automated machine result alongside the manual human edits to ensure traceability.
-  - *Notification & Status:* Presents non-technical error notifications for unsupported formats or corrupted files and displays processing status/caching of user-defined ROI parameters to prevent data loss if window closes.
-  - *Performance Benchmarks:* GUI must initialize into a ready state within reasonable timeframe on lab desktop hardware and remain responsive to window scaling and user inputs without freezing during heavy processing workloads.
+| ID | Type | Requirement Description |
+| :--- | :--- | :--- |
+| **F.OUT-1** | Functional | **PhysioMerge Integration:** Compatible with CSV exports that capture all extracted and calculated metrics. |
+| **F.OUT-2** | Functional | **Vessel Diameter:** Extracted perpendicular to vascular walls in longitudinal views. |
+| **F.OUT-3** | Functional | **Vessel Cross-Sectional Area:** Calculated for circular vessels in transverse views using edge detection. |
+| **F.OUT-4** | Functional | **Time-Averaged Blood Velocity:** Extracted from the white Doppler waveform. |
+| **F.OUT-5** | Functional | **Estimated Volumetric Blood Flow Rate:** Calculated using the extracted velocity and diameter (targeted in mL/min). |
+| **F.OUT-6** | Functional | **Physical Pixel Scale/Calibration:** Derived from reading on-screen depth and velocity rulers (to within 1mm accuracy). |
+| **F.OUT-7** | Functional | **Recording Timeline/Timestamp Tracking:** Time elapsed/processed across the Doppler and video timeline. |
+| **F.OUT-8** | Functional | **ECG/Cardiac Signals:** Separated green ECG trace for cycle/diastole synchronization. |
+| **F.OUT-9** | Functional | **Command Line Interface (CLI) Callable:** Integrate with software by calling it directly as CLI arguments for batch-processing pipelines. |
+
+### GUI Outputs & Display Features
+
+| ID | Type | Requirement Description |
+| :--- | :--- | :--- |
+| **F.OUT-10** | Functional | **Augmented Video Overlay:** GUI displays an augmented, high-contrast visual edge-detection spline projected directly on top of the greyscale B-mode ultrasound video with low-latency and best vessel candidate detected from B-mode view. |
+| **F.OUT-11** | Functional | **Track Revision History:** If researcher manually adjusts or edits an automated measurement, GUI preserves original automated machine result alongside the manual human edits to ensure traceability. |
+| **F.OUT-12** | Functional | **Notification & Status:** Presents non-technical error notifications for unsupported formats or corrupted files and displays processing status/caching of user-defined ROI parameters to prevent data loss if window closes. |
+| **NF.OUT-1** | Non-Functional | **Performance Benchmarks:** GUI must initialize into a ready state within reasonable timeframe on lab desktop hardware and remain responsive to window scaling and user inputs without freezing during heavy processing workloads. |
 
 ## Hardware & Environment Constraints
 
-- **Network:** Strictly Offline (System will never be hooked up to the internet).
-- **Target Hardware:** NVIDIA rtxA5000 GPU and Xeon w-2245 CPU, 32 GB RAM.
-- **Fallback Hardware:** Must support fallback for lower-end systems.
-- **Language/Framework:** Python-based integration.
+| ID | Type | Requirement Description |
+| :--- | :--- | :--- |
+| **C.ENV-1** | Constraint | **Network:** Strictly Offline (System will never be hooked up to the internet). |
+| **C.ENV-2** | Constraint | **Target Hardware:** NVIDIA rtxA5000 GPU and Xeon w-2245 CPU, 32 GB RAM. |
+| **C.ENV-3** | Constraint | **Fallback Hardware:** Must support fallback for lower-end systems. |
+| **C.ENV-4** | Constraint | **Language/Framework:** Python-based integration. |
 
 # Testing
 
@@ -154,26 +169,23 @@ The test dataset should include the following cases.
 
 ## Danny Green Validation
 
-The test plan should cover the 5 main functional components below:
-1. **Acquisition & Calibration Module:** Video control (rewind or fast-forward), 8-bit frame with ~16fps, pixel-to-millimetre scaling.
-2. **ECG Signal Detection:** Max/min detection algorithm to identify R waves for end-diastolic phase capture.
-3. **Edge-Detecction with Wall-Tracking:** Binary thresholding, column-by-column contiguous zero counting and medium filtering across 200-400 pixel coluns (depending on frame).
-4. **Post-Processing:** Baseline averaging and 3rd order polynomial curve fitting for peak %FMD and %GTN responses.
+The test plan should cover the main functional components below:
+
+| ID | Component | Description |
+| :--- | :--- | :--- |
+| **DG-1** | Acquisition & Calibration Module | Video control (rewind or fast-forward), 8-bit frame with ~16fps, pixel-to-millimetre scaling. |
+| **DG-2** | ECG Signal Detection | Max/min detection algorithm to identify R waves for end-diastolic phase capture. |
+| **DG-3** | Edge-Detection with Wall-Tracking | Binary thresholding, column-by-column contiguous zero counting and median filtering across 200–400 pixel columns (depending on frame). |
+| **DG-4** | Post-Processing | Baseline averaging and 3rd order polynomial curve fitting for peak %FMD and %GTN responses. |
 
 ### Unit Tests
 
-1. Calibration Transform
-- *Test:* Input synthetic binary images with known pixel distances (i.e.: 10px, 50px, 100px, 200px).
-- *Expected Result:* Scale factor calculation S = $\delta{mm}/\delta{px}$ is accurate with no floating point drift.
-2. Binary Zero Counter
-- *Test:* Feed test columns with alternating black/white patterns, fragmented lumen segments, near-wall noise, and clean lumens.
-- *Expected Result:* Correctly identifies the longest sequence of binary zeros without misidentifying false walls.
-3. Median Filter Robustness
-- *Test:* Inject outlier columns into synthetic 200–400 column arrays.
-- *Expected Result:* Median calculation rejects outliers and spikes, maintaining the true median diameter.
-4. Polynomial Fit Test
-- *Test:* Feed pre-calculated polynomial datasets (with known inflection and maximum points) into the 3rd-order curve fitting function.
-- *Expected Result:* Output matches the mathematical ground truth for peak dilation and time-to-peak.
+| ID | Test | Test Description | Expected Result |
+| :--- | :--- | :--- | :--- |
+| **UT-1** | Calibration Transform | Input synthetic binary images with known pixel distances (i.e.: 10px, 50px, 100px, 200px). | Scale factor calculation $S = \delta{mm}/\delta{px}$ is accurate with no floating point drift. |
+| **UT-2** | Binary Zero Counter | Feed test columns with alternating black/white patterns, fragmented lumen segments, near-wall noise, and clean lumens. | Correctly identifies the longest sequence of binary zeros without misidentifying false walls. |
+| **UT-3** | Median Filter Robustness | Inject outlier columns into synthetic 200–400 column arrays. | Median calculation rejects outliers and spikes, maintaining the true median diameter. |
+| **UT-4** | Polynomial Fit Test | Feed pre-calculated polynomial datasets (with known inflection and maximum points) into the 3rd-order curve fitting function. | Output matches the mathematical ground truth for peak dilation and time-to-peak. |
 
 
 # Video Segmentation Method
