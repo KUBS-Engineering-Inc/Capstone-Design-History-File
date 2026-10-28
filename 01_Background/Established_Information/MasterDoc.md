@@ -28,6 +28,7 @@ The software processes ultrasound recordings in two primary views, treating each
 - **Core Scope:** Full GUI with automated analysis of ultrasound video and manual human edits/refinements (with revision history keeping the original machine result). Must capture perpendicular diameter, blood velocity, blood flow, and CSA.
 - **System Integration:** Integrate with custom vascular AI lab software (PhysioMerge) to replace the existing "Danny Green" software pipeline.
 - **Use Cases:** Scan types such as Flow-Mediated Dilation (FMD) and cerebral blood flow (CBF) are use cases of the core measurements, not separate features.
+  - **Baseline vs Protocol Scans:** A baseline scan is a regular recording with no intervention. A protocol scan includes an intervention (e.g. FMD, oxygen deprivation, cycling, rowing). The software does not need to know which type a video is, but results must be valid for both.
   - **FMD:** Requires diameter, velocity, and flow.
   - **CO₂ Studies:** CO₂ is a prominent vasodilator. Hypercapnia (increased CO₂) and hypocapnia (decreased CO₂) studies change vessel diameter over time (vessels get bigger with hypercapnia).
 - **Potential Extensions / Bonus Capabilities:**
