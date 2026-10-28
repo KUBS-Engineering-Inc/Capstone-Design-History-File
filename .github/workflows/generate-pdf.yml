@@ -3,7 +3,7 @@ name: Generate PDFs from Markdown
 on:
   push:
     branches:
-      # - main
+      - main
       - feat/stakeholder_milestones
       - feat/fall_work_breakdown
     paths:
