@@ -4,7 +4,7 @@
 
 ### 1.1 Project Overview
 
-The objective of this capstone project is to develop a graphical software application (GUI) for analyzing duplex Doppler ultrasound recordings to extract quantitative measurements of blood vessels and blood flow. The software will process ultrasound videos in bulk from a local folder, utilizing image-processing techniques for edge detection and signal processing for waveform analysis.
+The objective of this capstone project is to develop a graphical software application (GUI) for analyzing duplex Doppler ultrasound recordings to extract quantitative measurements of blood vessels and blood flow. The software will process ultrasound videos from a local folder, utilizing image-processing techniques for edge detection and signal processing for waveform analysis.
 
 ### 1.2 View Specifications
 
@@ -20,16 +20,24 @@ The software processes ultrasound recordings in two primary views, treating each
   - **Appearance:** Blood vessel appears as a circular structure/opening.
   - **Input Data:** B-mode recording only (Handle cases with no Doppler).
   - **Measurements:** Vessel-wall edge detection to determine cross-sectional area (CSA).
-  - **Target:** Both arterial and venous blood vessels.
+  - **Target:** Both arterial and venous blood vessels. CSA edge detection is fundamentally the same for both, but the test harness must test arteries and veins separately.
+- **Multiple Vessels in View:** An artery and vein both visible is treated as noisy data. The software estimates which vessel is the target, and the operator can switch to the other. Metrics are calculated for both vessels so switching targets is seamless (computation is light enough to do both).
 
 ### 1.3 Scope & Extensions
 
 - **Core Scope:** Full GUI with automated analysis of ultrasound video and manual human edits/refinements (with revision history keeping the original machine result). Must capture perpendicular diameter, blood velocity, blood flow, and CSA.
 - **System Integration:** Integrate with custom vascular AI lab software (PhysioMerge) to replace the existing "Danny Green" software pipeline.
+- **Use Cases:** Scan types such as Flow-Mediated Dilation (FMD) and cerebral blood flow (CBF) are use cases of the core measurements, not separate features.
+  - **FMD:** Requires diameter, velocity, and flow.
+  - **CO₂ Studies:** CO₂ is a prominent vasodilator. Hypercapnia (increased CO₂) and hypocapnia (decreased CO₂) studies change vessel diameter over time (vessels get bigger with hypercapnia).
 - **Potential Extensions / Bonus Capabilities:**
+  - Batch processing (not required by the stakeholder).
   - ECG processing using Pan-Tompkins algorithm to find R peaks (Explicitly marked as a bonus).
   - Intima-media thickness (vascular wall thickness) calculations.
   - M-mode support.
+    - Available in both transverse and longitudinal views.
+    - M-mode and B-mode have different functionality; each needs its own analysis.
+    - Regular M-mode has no Z marker.
   - Middle envelope support for Doppler to classify monophasic, biphasic, and triphasic signals.
   - Calculation of morphological data from Doppler waveforms.
 
@@ -49,14 +57,26 @@ The software processes ultrasound recordings in two primary views, treating each
 - **Target Hardware:** NVIDIA rtxA5000 GPU and Xeon w-2245 CPU, 32 GB RAM.
 - **Fallback Hardware:** Must support fallback for lower-end systems.
 - **Language/Framework:** Python-based integration.
+- **Video Library:** OpenCV for now (research standard). Move to PyAV only if we later need its finer control over FFmpeg or libraries unavailable in OpenCV.
 
 ### 2.2 Input Data Specifications
 
 - **Format:** Constant frame rate ultrasound video files (approx. 6 GB for 30 mins, 12 GB per person).
+- **Screen Layout:**
+  - **B-mode:** Always on. It is the main video image.
+  - **Bottom Graph:** Always appears in the same location (bottom left). Its presence means pulse wave (Doppler) or M-mode is active. Text on the graph identifies which mode is active; there may also be a text indicator at the bottom of the screen.
+  - **Right Sidebar:** Always present. Shows probe info, depth, and the machine's current insonation angle (the probe's beam angle, not relative to the vessel wall). Also shows BPM when ECG is active. Its text can be read via OCR.
 - **Visual Markers:**
-  - **Scale:** Located on left/right sides. Depth/scale is dynamic and may be changed **mid-video** by the operator. The software must continuously read/track this via OCR. Scale might also be inverted (negative on top).
+  - **Scale:** Depth/scale is dynamic and may be changed **mid-video** by the operator. The software must continuously read/track this via OCR. Scale might also be inverted (negative on top).
+    - Scales always appear in the same location, so the software searches fixed regions of interest for them rather than the whole frame.
+    - The depth scale is on the right side of the B-mode image.
+    - The bottom graph scale applies to the Doppler waveform only. ECG has no scale.
   - **Color Scale:** Red = blood flow/pulse (artery), Blue = slower/different direction (vein).
-  - **ROI Indicator:** Green 'Z' box / bounding box indicates the starting target area. Search (BFS) for vessel walls around this box.
+  - **ROI Indicator ('Z' marker):** Appears whenever something with velocity is being measured. Search (BFS) for vessel walls around this marker.
+    - Long vertical line: the Doppler beam.
+    - Two parallel lines: the sample region. The Doppler signal is read between these lines at that depth.
+    - Diagonal dotted line (completing the 'Z'): the insonation angle. It should be parallel to the vessel wall.
+    - The marker is not always present. When missing, the software must find the region of interest itself.
   - **Graphs:** Bottom graph contains Doppler (White line) and ECG (Green line).
 - **Noise/Artifacts:** Recordings include patient movement (coughing, laughing, hyperventilating during hypoxia studies), mid-video depth changes, flickering, and the image occasionally going off-screen.
 
@@ -68,6 +88,7 @@ The software processes ultrasound recordings in two primary views, treating each
   - Ultrasound image (vessel walls in both longitudinal and transverse views).
   - Bottom graph (waveforms & envelopes).
 - **Angle Correction:** Arteries are sloped. Vertical pixel distance is incorrect for diameter; the algorithm must calculate angle-corrected diameter (must be parallel to the Doppler flow line).
+- **Insonation Angle:** Calculate the insonation angle relative to the vessel walls.
 - **Waveform Extraction:** Extract the waveform and find the upper, middle, and lower envelope of the Doppler signal.
 - **Event Identification:** Identify systole (pulse up/peak) and diastole. Separate the ECG to detect R peaks.
 - **UI States:** The interface must handle states for process, edit, pause, cancel, and undo.
@@ -91,9 +112,17 @@ The software processes ultrasound recordings in two primary views, treating each
 - **Video Source:** Our application is not concerned with where the video comes from.
 - **New PM Commands:** If we need a command PM doesn't have, we contribute it directly to PM so everyone benefits. This is expected to be very unlikely, since PM already covers what we need.
 - **Deleted Data:** PM automatically cleans messy data and records whether data was deleted as a true/false flag in the file metadata. PM keeps the log of what was deleted so it can be reviewed later and is never lost. We receive this field and do not log deletions ourselves.
+- **Data Sent to PM:** Diameter, CSA, Doppler, and ECG. Error checking is already handled by PM.
+- **Code Ownership:** The university now owns PhysioMerge. Taha is no longer the code owner; PM code access goes through Milo.
 
 ### 2.6 Validation & Testing Baseline
 
 - **Legacy Software Comparison:** Outputs will be tested against the "Danny Green" software.
   - _Note on Danny Green:_ Written in Fortran ("4tran"), capable of perpendicular diameter measurement, but **cannot** do cross-sectional area (CSA).
 - **Test Data:** A specific test dataset with a ground truth is being designed. The UI prototype will initially be tested specifically on Flow-Mediated Dilation (FMD) video.
+
+---
+
+## 3. Additional Details (May Become Relevant)
+
+- **Focus Marker:** A pink marker on the right side of the ultrasound video shows the focus, i.e. the depth with the most focus. Relevance to our analysis is unclear.
