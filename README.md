@@ -17,6 +17,8 @@ This Design History File is the authoritative record of our engineering design p
 <!-- FOLDER_TABLE_START -->
 | Folder | Contents |
 |--------|----------|
+| `.agents/` | Project documentation and files |
+| `.claude/` | Project documentation and files |
 | `00_Admin/` | Team roles, responsibilities, Gantt chart, project plan |
 | `01_Background/` | Literature reviews, stakeholder communications, standards & regulations |
 | `02_Meetings/` | Meeting agendas, minutes, action items |
