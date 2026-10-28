@@ -27,6 +27,7 @@ The image processing requirements are broken in to
 | **F.VES-1** | Functional | The software shall accurately extract vessel diameter perpendicular to the vascular walls in longitudinal views. |
 | **F.VES-2** | Functional | The system shall calculate the metrics for multiple vessel candidates in the B-mode view to determine the best candidate for tracking. |
 | **F.VES-3** | Functional | The system shall determine the cross-sectional area of circular vessels in transverse views using edge detection. |
+| **F.VES-4** | Functional | The system shall calculate the metrics for multiple vessel candidates in B-mode and transverse views to present the best candidate while having cached back-ups. |
 
 ---
 
