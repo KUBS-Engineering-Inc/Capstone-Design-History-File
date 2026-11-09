@@ -41,6 +41,14 @@ The software processes ultrasound recordings in two primary views, treating each
     - Regular M-mode has no Z marker.
   - Middle envelope support for Doppler to classify monophasic, biphasic, and triphasic signals.
   - Calculation of morphological data from Doppler waveforms.
+  - DICOM input support.
+    - The Terason can save recordings as DICOM files under a patient file (e.g. TTSA_001). Raw data is stored as metadata.
+    - Recordings are saved as a series of B-mode frames and exported as a cine loop. DICOM viewers show them frame by frame.
+    - DICOM toolboxes exist for MATLAB, R, Python and ImageJ.
+    - Comparing DICOM and MP4 recordings from the same session would show how much resolution is lost in the Camtasia recording.
+  - Alternative mean velocity methods.
+    - Compare approaches to replace the max envelope ÷ 2 method (e.g. averaging across the full spectrum, intensity-weighted averaging).
+    - Expected final approach: intensity-weighted mean, where brighter (higher-intensity) pixels count more.
 
 ### 1.4 Disciplinary Focus
 
@@ -62,6 +70,7 @@ The software processes ultrasound recordings in two primary views, treating each
 
 ### 2.2 Input Data Specifications
 
+- **Current Recording Method:** Videos are screen recordings made with Camtasia, not exported from the ultrasound machine.
 - **Format:** Constant frame rate ultrasound video files (approx. 6 GB for 30 mins, 12 GB per person).
 - **Screen Layout:**
   - **B-mode:** Always on. It is the main video image.
@@ -91,6 +100,10 @@ The software processes ultrasound recordings in two primary views, treating each
 - **Angle Correction:** Arteries are sloped. Vertical pixel distance is incorrect for diameter; the algorithm must calculate angle-corrected diameter (must be parallel to the Doppler flow line).
 - **Insonation Angle:** Calculate the insonation angle relative to the vessel walls.
 - **Waveform Extraction:** Extract the waveform and find the upper, middle, and lower envelope of the Doppler signal.
+- **Flow Calculation:** Volumetric flow = mean velocity × vessel area.
+  - Current lab method: take the max envelope, assume a parabolic velocity profile so the mean is half the peak, then multiply by area.
+  - The parabolic assumption breaks down at bifurcations and when the view changes.
+  - Diameter over time and velocity are time-aligned and then multiplied, not averaged separately (e.g. over 3 minutes) and then multiplied.
 - **Event Identification:** Identify systole (pulse up/peak) and diastole. Separate the ECG to detect R peaks.
 - **UI States:** The interface must handle states for process, edit, pause, cancel, and undo.
 
@@ -121,9 +134,12 @@ The software processes ultrasound recordings in two primary views, treating each
 - **Legacy Software Comparison:** Outputs will be tested against the "Danny Green" software.
   - _Note on Danny Green:_ Written in Fortran ("4tran"), capable of perpendicular diameter measurement, but **cannot** do cross-sectional area (CSA).
 - **Test Data:** A specific test dataset with a ground truth is being designed. The UI prototype will initially be tested specifically on Flow-Mediated Dilation (FMD) video.
+- **Ethics & Data Access:** The team will be added to Taha's study ethics. After that, the team can use data from other participants and publish (e.g. at undergrad conferences). Until then, nothing can be published.
 
 ---
 
 ## 3. Additional Details (May Become Relevant)
 
 - **Focus Marker:** A pink marker on the right side of the ultrasound video shows the focus, i.e. the depth with the most focus. Relevance to our analysis is unclear.
+- **Doppler Gate Size:** The Doppler sample gate (cursor) can be made very small. Taha has not tested how small.
+- **Ultrasound Expertise:** Dr. Baara is the lab's most experienced ultrasound user.
