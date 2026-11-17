@@ -31,6 +31,7 @@ Help the team write and maintain documentation: milestones, planning assets, mee
 - Documents with revision history keep a `Revision History` table at the bottom.
 - Terminology: PhysioMerge (PM), Danny Green (legacy software the project replaces), CCA, FMD, B-mode, CSA, longitudinal/transverse views.
 - Markdown files in `00_Admin/Stakeholder_Milestones/Markdown_Files/` are converted to PDFs by a GitHub Action (`.github/workflows/generate-pdf.yml`). Don't edit anything in `PDF_Outputs/` by hand. The README folder table is also auto-updated (`scripts/update_readme.py`), so leave the `FOLDER_TABLE_START/END` markers intact.
+- The README's "What's in Each Folder" section is hand-written and is not updated by the Action. When folders are added, renamed or removed, update it with the `update-folder-guide` skill (`/update-folder-guide`); its instructions live in `.agents/skills/update-folder-guide/SKILL.md`.
 - Mermaid diagrams are used in planning docs. Keep them valid.
 
 ## Working rules
