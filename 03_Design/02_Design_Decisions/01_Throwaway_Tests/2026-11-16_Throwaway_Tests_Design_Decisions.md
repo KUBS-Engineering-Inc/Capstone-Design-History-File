@@ -3,6 +3,8 @@
 **Date:** 2026-11-16
 **Source:** module READMEs in [Capstone-Throwaway-Tests](https://github.com/KUBS-Engineering-Inc/Capstone-Throwaway-Tests) (`modules/<module>/README.md`)
 
+> **Full details are in the related repository.** The throwaway test code and each test's complete design decisions live in [Capstone-Throwaway-Tests](https://github.com/KUBS-Engineering-Inc/Capstone-Throwaway-Tests), in each module's `README.md` (Design Decision section). This document is a summary; read the module READMEs for the full reasoning, results and how to run each test.
+
 ---
 
 ## Why Throwaway Tests
@@ -85,3 +87,4 @@ Not covered yet: the Doppler timeline test (D4) has no module in the repo.
 | Date | Version | Changes |
 | --- | --- | --- |
 | 2026-11-16 | 0.1 | Initial summary of throwaway test design decisions from the module READMEs |
+| 2026-11-16 | 0.2 | Noted that the full design decisions and test code are in Capstone-Throwaway-Tests |
