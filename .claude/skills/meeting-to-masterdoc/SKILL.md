@@ -1,6 +1,6 @@
 ---
 name: meeting-to-masterdoc
-description: Parse a meeting notes file from 02_Meetings/ and update 01_Background/Established_Information/MasterDoc.md with the facts it establishes, after confirming every change with the user. Use when the user adds or names a meeting file and asks to update the master doc from it.
+description: Parse a meeting notes file from 02_Meetings/, update 01_Background/Established_Information/MasterDoc.md with the facts it establishes, and add a Summary, Implications and Action Items section to the meeting file, after confirming every change with the user. Use when the user adds or names a meeting file and asks to update the master doc from it or clean it up.
 ---
 
 Read `.agents/skills/meeting-to-masterdoc/SKILL.md` and follow it exactly. It is the source of truth for this skill.
