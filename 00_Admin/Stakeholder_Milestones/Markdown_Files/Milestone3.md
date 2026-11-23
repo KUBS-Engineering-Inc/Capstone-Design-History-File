@@ -1,4 +1,4 @@
-# Milestone 1: Component Prototyping & Design Outputs
+# Milestone 3: Component Prototyping & Design Outputs
 
 **Created:** 2026-11-21
 
@@ -17,12 +17,18 @@ These are states that we do not have recorded and must procure in order to fully
 - vessel nonexistent (e.g., offscreen)
 - vessel blurry
 - multiple vessels visible (multiple of this, various levels of focus and where they appear on screen)
+- transverse view with good vessel
 - unclear spectra (e.g., out of focus and super large peaks)
 - change of depth (so we can see how the scale changes as well as how the image changes)
+- view at max and min depth
 - change of scale in doppler waveform
 - z-marker in a weird place (far away from where we're measuring)
+- z-cursor off with unclear ROIs
+- z-cursor white
 - insonnation angle not very parallel to wall
 - structures that look similar (e.g., jugular, thyroid)
+- dicom video (same as one of our tests so it has all 3 modes)
+- m-mode
 
 # Already existing error or abnormal states
 
