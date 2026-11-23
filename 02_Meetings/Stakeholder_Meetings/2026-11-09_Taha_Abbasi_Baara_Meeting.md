@@ -1,6 +1,6 @@
 # Meeting with Taha
 
-**Date:** 2026-09-17
+**Date:** 2026-11-09
 
 ---
 
@@ -20,7 +20,7 @@
 - The angling of the vessel and diameter.
 
 - kyle presents
-- what milestone 2 is. getting area diameter and the angle. throwaway tests. 
+- what milestone 2 is. getting area diameter and the angle. throwaway tests.
 
 - we get the current max envelope
 - we want the average envelope is what we would multiple by the area to get flow
@@ -44,10 +44,12 @@
 - having fun in how we're navigating the problem. align yourself also so that we're not recreating something that's already been done.
 
 straight forward questions
+
 - range on the depth of the ultrasound? wants to say 12 cm but the ultrasound got given away to a differnet lab. terascon usmart 3300 with the linear probe
 - 3 cm and 4 cm we looked at. Does this increase linearly?
 - updates on getting access to the physiomerge code? taha sending that email now
-- for decreasing the cursor gates, how small can you make that cursor? never has tried it before. very small. 
+- for decreasing the cursor gates, how small can you make that cursor? never has tried it before. very small.
 
 currently we're unable to publish anything that we have done
+
 - we'll be put onto his study. and then because we're on the ethics, and then we can publish. We will be able to use the data from other people. Data diversity up, and there are undergrad conferences that we can present at
