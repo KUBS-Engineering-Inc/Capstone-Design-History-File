@@ -17,7 +17,7 @@
 - if there’s bad data, “do what you can”, treat it as if it’s good, and PM chooses what to do with the data. So don’t bother flagging the data or anything, just process it the best that we can.
 - first version of PM Taha wrote himself. Second one was fully vibe coded. He was curious if he could redo everything that he’s done. It’s too big of a program to really vibe code so you do stage by stage
 - how PM works: different read parts functions that define how to integrate with various systems and read their data. We’d just make a new Python file to define them reading from our source. Output from Danny green is a csv with some top level metadata and the actual data x rows down with a header and then the data itself. The Python file to read from it just defines how to read that data, so we’d do something similar with ours.
-- for the time being, dicom won’t work because it only records last 10 seconds, so Taha will ask barra if we can save the full video. So stick to mp4 camtasia. Consider dicom and using any metadata an extension we think about way in the future
+- for the time being, dicom won’t work because it only records last 10 seconds, so Taha will ask Baraa if we can save the full video. So stick to mp4 camtasia. Consider dicom and using any metadata an extension we think about way in the future
 
 # Appendix - Error State Video Timestamps
 

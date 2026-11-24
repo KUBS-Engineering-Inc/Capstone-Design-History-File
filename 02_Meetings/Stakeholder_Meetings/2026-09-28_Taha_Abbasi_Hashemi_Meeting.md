@@ -4,6 +4,30 @@
 
 ---
 
+## Summary
+
+- Taha walked through the duplex screen: the B-mode image, the depth scale, the green Doppler line and box, and the bottom graph with Doppler (white) and ECG (green).
+- The software must handle changing or inverted scales, depth changes mid-recording, the image going off-screen, and bad data, for both baseline and protocol scans.
+- Our core outputs are velocity, diameter, time and R wave. Integrating with PM gives more metrics (e.g. pulsatility index) and automated data deletion.
+- Diameter must be angle-corrected. The target is the CCA, avoiding the bifurcation.
+- The system is offline and will be validated against Danny Green.
+- Project management: Taha wants a milestone document by Friday, a fully detailed plan by week 10, a project lead rotating every two weeks, and weekly meetings.
+
+## Implications
+
+M0: Timeline & Project Planning. The technical walkthrough feeds Progress Report 1: background and motivation (Ursula) and user needs and project statement (Seaya).
+
+## Action Items
+
+| Person | Action Items |
+| --- | --- |
+| Baoze | Write the M0 milestone document covering the next 13 weeks (due 2026-10-02) |
+| Kyle | Write the M0 milestone document covering the next 13 weeks (due 2026-10-02) |
+| Ursula | Write the M0 milestone document covering the next 13 weeks (due 2026-10-02)<br>Progress Report 1: background and motivation |
+| Seaya | Lead the M0 milestone document covering the next 13 weeks (due 2026-10-02)<br>Progress Report 1: user needs and project statement |
+
+## Notes
+
 **Meeting Notes:**
 - 3 probe ECG with no ground is also attached
 - Software like Cantacia for recording ultrasound

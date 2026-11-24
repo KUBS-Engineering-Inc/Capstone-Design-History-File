@@ -18,15 +18,15 @@ In Milestone 2 the highest-risk algorithms were tested first with throwaway code
 
 ## Overview
 
-| Test | Module | Task | Owner | Main decision |
-| --- | --- | --- | --- | --- |
-| Segment display windows | `segment_windows` | F7 | Seaya | Identify the layout with OCR, then crop with fixed coordinates plus contour detection |
-| Read the scales (OCR) | `scale_ocr` | D1, L1 | Kyle | OCR only inside fixed per-layout regions, not the whole screen |
-| Doppler waveform and envelope | `doppler_waveform` | D2 | Ursula | Grayscale threshold; envelope = uppermost pixel per column |
-| ECG trace and R-peaks | `ecg` | D3 | Ursula | Green-dominance mask; R-peak candidates with `find_peaks` |
-| Perpendicular diameter | `measure_diameter` | L3, L4 | Seaya | Search for the lumen at the Doppler cursor instead of detecting walls |
-| Circular vessel detection | `detect_circular_vessels` | T1 | Baoze | Contour threshold sweep scored on shape and wall contrast, not Hough circles |
-| Frame extraction | `extract_frames` | — (supports the others) | Baoze | Save original frames named by their index in the video |
+| Test                          | Module                    | Task                    | Owner  | Main decision                                                                         |
+| ----------------------------- | ------------------------- | ----------------------- | ------ | ------------------------------------------------------------------------------------- |
+| Segment display windows       | `segment_windows`         | F7                      | Seaya  | Identify the layout with OCR, then crop with fixed coordinates plus contour detection |
+| Read the scales (OCR)         | `scale_ocr`               | D1, L1                  | Kyle   | OCR only inside fixed per-layout regions, not the whole screen                        |
+| Doppler waveform and envelope | `doppler_waveform`        | D2                      | Ursula | Grayscale threshold; envelope = uppermost pixel per column                            |
+| ECG trace and R-peaks         | `ecg`                     | D3                      | Ursula | Green-dominance mask; R-peak candidates with `find_peaks`                             |
+| Perpendicular diameter        | `measure_diameter`        | L3, L4                  | Seaya  | Search for the lumen at the Doppler cursor instead of detecting walls                 |
+| Circular vessel detection     | `detect_circular_vessels` | T1                      | Baoze  | Contour threshold sweep scored on shape and wall contrast, not Hough circles          |
+| Frame extraction              | `extract_frames`          | — (supports the others) | Baoze  | Save original frames named by their index in the video                                |
 
 Not covered yet: the Doppler timeline test (D4) has no module in the repo.
 
@@ -61,9 +61,9 @@ Not covered yet: the Doppler timeline test (D4) has no module in the repo.
 
 ## Perpendicular Diameter (L3, L4)
 
-- **Use the Doppler cursor as a search anchor.** Where the cursor crosses the insonation line narrows the lumen search.
+- **Use the Doppler cursor as a search anchor.** Where the cursor crosses the insonnation line narrows the lumen search.
 - **Lumen instead of walls.** Detecting continuous vessel walls directly was unreliable because of image variation and irregular boundaries; the lumen is a larger, more robust target.
-- **Intersection from fitted lines.** Masking the beam and taking the midpoint of the remaining strokes was inaccurate for small cursors; the current method fits the insonation line and intersects it with the beam.
+- **Intersection from fitted lines.** Masking the beam and taking the midpoint of the remaining strokes was inaccurate for small cursors; the current method fits the insonnation line and intersects it with the beam.
 - **Open:** a threshold sweep shows how candidates change with intensity, but choosing a threshold needs more data and a defined error metric. Lumen vs wall detection should be compared further.
 
 ## Circular Vessel Detection (T1)
@@ -84,7 +84,8 @@ Not covered yet: the Doppler timeline test (D4) has no module in the repo.
 ---
 
 ## Revision History
-| Date | Version | Changes |
-| --- | --- | --- |
-| 2026-11-16 | 0.1 | Initial summary of throwaway test design decisions from the module READMEs |
-| 2026-11-16 | 0.2 | Noted that the full design decisions and test code are in Capstone-Throwaway-Tests |
+
+| Date       | Version | Changes                                                                            |
+| ---------- | ------- | ---------------------------------------------------------------------------------- |
+| 2026-11-16 | 0.1     | Initial summary of throwaway test design decisions from the module READMEs         |
+| 2026-11-16 | 0.2     | Noted that the full design decisions and test code are in Capstone-Throwaway-Tests |

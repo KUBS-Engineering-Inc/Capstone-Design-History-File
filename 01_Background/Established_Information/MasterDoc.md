@@ -70,12 +70,13 @@ The software processes ultrasound recordings in two primary views, treating each
 
 ### 2.2 Input Data Specifications
 
+- **Ultrasound Machine:** Terason uSmart 3300 with a linear probe. Depth ranges from 2 cm to 12 cm.
 - **Current Recording Method:** Videos are screen recordings made with Camtasia, not exported from the ultrasound machine.
 - **Format:** Constant frame rate ultrasound video files (approx. 6 GB for 30 mins, 12 GB per person).
 - **Screen Layout:**
   - **B-mode:** Always on. It is the main video image.
   - **Bottom Graph:** Always appears in the same location (bottom left). Its presence means pulse wave (Doppler) or M-mode is active. Text on the graph identifies which mode is active; there may also be a text indicator at the bottom of the screen.
-  - **Right Sidebar:** Always present. Shows probe info, depth, and the machine's current insonation angle (the probe's beam angle, not relative to the vessel wall). Also shows BPM when ECG is active. Its text can be read via OCR.
+  - **Right Sidebar:** Always present. Shows probe info, depth, and the machine's current insonnation angle (the probe's beam angle, not relative to the vessel wall). Also shows BPM when ECG is active. Its text can be read via OCR.
 - **Visual Markers:**
   - **Scale:** Depth/scale is dynamic and may be changed **mid-video** by the operator. The software must continuously read/track this via OCR. Scale might also be inverted (negative on top).
     - Scales always appear in the same location, so the software searches fixed regions of interest for them rather than the whole frame.
@@ -85,7 +86,7 @@ The software processes ultrasound recordings in two primary views, treating each
   - **ROI Indicator ('Z' marker):** Appears whenever something with velocity is being measured. Search (BFS) for vessel walls around this marker.
     - Long vertical line: the Doppler beam.
     - Two parallel lines: the sample region. The Doppler signal is read between these lines at that depth.
-    - Diagonal dotted line (completing the 'Z'): the insonation angle. It should be parallel to the vessel wall.
+    - Diagonal dotted line (completing the 'Z'): the insonnation angle. It should be parallel to the vessel wall.
     - The marker is not always present. When missing, the software must find the region of interest itself.
   - **Graphs:** Bottom graph contains Doppler (White line) and ECG (Green line).
 - **Noise/Artifacts:** Recordings include patient movement (coughing, laughing, hyperventilating during hypoxia studies), mid-video depth changes, flickering, and the image occasionally going off-screen.
@@ -98,13 +99,14 @@ The software processes ultrasound recordings in two primary views, treating each
   - Ultrasound image (vessel walls in both longitudinal and transverse views).
   - Bottom graph (waveforms & envelopes).
 - **Angle Correction:** Arteries are sloped. Vertical pixel distance is incorrect for diameter; the algorithm must calculate angle-corrected diameter (must be parallel to the Doppler flow line).
-- **Insonation Angle:** Calculate the insonation angle relative to the vessel walls.
+- **insonnation Angle:** Calculate the insonnation angle relative to the vessel walls.
 - **Waveform Extraction:** Extract the waveform and find the upper, middle, and lower envelope of the Doppler signal.
 - **Flow Calculation:** Volumetric flow = mean velocity × vessel area.
   - Current lab method: take the max envelope, assume a parabolic velocity profile so the mean is half the peak, then multiply by area.
   - The parabolic assumption breaks down at bifurcations and when the view changes.
   - Diameter over time and velocity are time-aligned and then multiplied, not averaged separately (e.g. over 3 minutes) and then multiplied.
 - **Event Identification:** Identify systole (pulse up/peak) and diastole. Separate the ECG to detect R peaks.
+- **Pulsatility Index:** (systolic − diastolic) / mean.
 - **UI States:** The interface must handle states for process, edit, pause, cancel, and undo.
 
 ### 2.4 Physiological & Anatomical Rules
@@ -133,6 +135,8 @@ The software processes ultrasound recordings in two primary views, treating each
 
 - **Legacy Software Comparison:** Outputs will be tested against the "Danny Green" software.
   - _Note on Danny Green:_ Written in Fortran ("4tran"), capable of perpendicular diameter measurement, but **cannot** do cross-sectional area (CSA).
+  - The CD box at the top of Danny Green does not display accurate values.
+  - Liz knows the Danny Green software.
 - **Test Data:** A specific test dataset with a ground truth is being designed. The UI prototype will initially be tested specifically on Flow-Mediated Dilation (FMD) video.
 - **Ethics & Data Access:** The team will be added to Taha's study ethics. After that, the team can use data from other participants and publish (e.g. at undergrad conferences). Until then, nothing can be published.
 
@@ -142,4 +146,4 @@ The software processes ultrasound recordings in two primary views, treating each
 
 - **Focus Marker:** A pink marker on the right side of the ultrasound video shows the focus, i.e. the depth with the most focus. Relevance to our analysis is unclear.
 - **Doppler Gate Size:** The Doppler sample gate (cursor) can be made very small. Taha has not tested how small.
-- **Ultrasound Expertise:** Dr. Baara is the lab's most experienced ultrasound user.
+- **Ultrasound Expertise:** Dr. Baraa is the lab's most experienced ultrasound user.

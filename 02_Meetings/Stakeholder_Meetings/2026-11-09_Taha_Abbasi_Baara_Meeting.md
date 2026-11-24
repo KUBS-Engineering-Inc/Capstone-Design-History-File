@@ -4,12 +4,46 @@
 
 ---
 
+## Summary
+
+- The CD box at the top of Danny Green doesn't display accurate values.
+- Dr. Baraa suggested using the Terason's own DICOM export instead of Camtasia. Homework: research Python DICOM image analysis toolboxes.
+- Comparing DICOM and MP4 recordings from the same session would show how much resolution Camtasia loses.
+- Kyle presented M2: the area, diameter and angle throwaway tests.
+- Flow:
+  - The lab currently uses the max envelope ÷ 2, which assumes a parabolic flow profile.
+  - Averaging across the full spectrum, or weighting by intensity, would be closer to the true mean velocity.
+  - Diameter and velocity should be time-aligned before multiplying.
+- Dr. Baraa will send ultrasound background resources.
+- The machine is a Terason uSmart 3300 with a linear probe. Depth ranges from 2 cm to 12 cm.
+- The team will be added to the study's ethics, which allows publishing and using other participants' data.
+
+## Implications
+
+M3: Component Prototyping & Design Outputs.
+
+- **Doppler metrics (Ursula, Baoze):** velocity extraction should use max envelope ÷ 2 for now. Intensity-weighted mean velocity is recorded as an extension.
+- **Diameter and CSA tracking (Seaya, Baoze):** flow needs diameter time-aligned with velocity, so the tracking outputs need timestamps that match the Doppler timeline.
+- **Error-state recordings (`Milestone_3.md`):** the DICOM and max/min depth items follow from this meeting.
+- **Advisor meeting 2:** the agenda is due 11-19, the meeting is on 11-26.
+
+## Action Items
+
+| Person | Action Items                                                                                                                                                                                                                                                     |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Baoze  | Extract Doppler metrics (velocity, systole/diastole, pulsatility index), with Ursula<br>Track CSA across frames, time-aligned with the Doppler timeline<br>Review Dr. Baraa's ultrasound resources (all)                                                         |
+| Kyle   | Detail the error states we want to record<br>Review Dr. Baraa's ultrasound resources (all)                                                                                                                                                                       |
+| Ursula | Extract Doppler metrics (velocity, systole/diastole, pulsatility index), with Baoze, using max envelope ÷ 2<br>Research Python DICOM image analysis toolboxes<br>Prototype mean velocity from the full spectrum<br>Review Dr. Baraa's ultrasound resources (all) |
+| Seaya  | Define UI states<br>Review Dr. Baraa's ultrasound resources (all)                                                                                                                                                                                                |
+
+## Notes
+
 - How did Danny Green's training go? needs more time on it
 - The CD box at the top of Danny Green has issues and doesn't show something accurates
 - Probably needs more questions
-- Dr. Baara is most experiences person on our ultrasound
+- Dr. Baraa is most experiences person on our ultrasound
 - Talking about things we could use the ultrasound other than just the lab
-- Asked Dr. Baara if we're talking to the other labs about the ultrasound usage
+- Asked Dr. Baraa if we're talking to the other labs about the ultrasound usage
 - We take camtasia videos, but the terason supports videos of itself
 - Why don't we just use that. It supports dichom videos
 - Medical images (e.g. MRIs), has embedded values of history all tied to the image. It has metadata. Very useful for medical imaging. Nice thing about is there are a lot of toolboxes that can be used to analyze Dichom files. Matlab, R. Raw data on terasim will be saved as the metadata. We normally use camtasia (the screen recording software). We can set up a patient file (TTSA_001). Saves it as a series of B-mode images. You can export it as a sinoloop (chinese loop?). Dichom viewer can see everything frame by frame afterwards. You do image analysis on the raw data that way.
@@ -34,7 +68,7 @@
 - find the middle or average across
 
 - We're assuming equal worth for every single velocity. Does the brightness of the pixel tell us anything. The spectral intensity matters more in a mean calculations. Think about how we translate from the full spectrum into a representative velocity.
-- There are some ultrasound resources that Baara will send so we understand the ultrasound foundations
+- There are some ultrasound resources that Baraa will send so we understand the ultrasound foundations
 - look at the brightness and have it intensity-weighted
 - are you comfortable diving into literature to know how it's been done? yes we are
 

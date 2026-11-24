@@ -4,6 +4,41 @@
 
 ---
 
+## Summary
+
+- The team presented M1, and Taha was very positive.
+- FMD and CBF are use cases of the core measurements. FMD needs diameter, velocity and flow.
+- CSA detection works the same for arteries and veins, but the test harness should test both.
+- When both an artery and a vein are visible, that's noisy data: the software estimates the target and the operator can switch.
+- OpenCV is the research standard; we're going with that.
+- Screen layout:
+  - Scales are always in the same place, and ECG has no scale.
+  - The sidebar shows BPM when ECG is on.
+  - Taha explained the Z marker's parts. The marker isn't always present.
+  - B-mode, M-mode and pulse wave are separate modes.
+- The insonnation angle should be calculated relative to the vessel walls.
+- PM is now owned by the university. Code access goes through Milo, and Taha will email him and cc us. Batch processing isn't needed.
+
+## Implications
+
+M2: Research & Design Planning.
+
+- **OCR throwaway tests (Kyle):** search fixed regions of interest for the scales. The sidebar text can be read with OCR. ECG has no scale.
+- **Wall detection and angle-corrected diameter (Seaya):** use the Z marker's geometry and compute the insonnation angle relative to the vessel wall. Handle the case where the marker is missing.
+- **Segmentation comparison (Seaya):** OpenCV vs PyAV.
+- **Test harness design (Ursula, Seaya):** test CSA on arteries and veins separately.
+- **UI states (Baoze):** the operator needs to be able to switch the target vessel.
+- **Graded advisor meeting:** 10-29, three days after this meeting.
+
+## Action Items
+
+| Person | Action Items                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Baoze  | Doppler: track the timeline from timestamps<br>Transverse: detect circular vessels<br>Define UI states (process, edit, pause, cancel, undo), including switching the target vessel<br>Wireframe the UI and start the Figma overlay, with Seaya                                                                                                                                                                                                                             |
+| Kyle   | Doppler: OCR the scale, searching fixed regions of interest (ECG has no scale)<br>B-mode: OCR the depth scale                                                                                                                                                                                                                                                                                                                                                              |
+| Ursula | Doppler: extract the waveform and its envelope<br>Doppler: separate the ECG and detect R-peaks<br>Design the test harness, with Seaya, testing CSA on arteries and veins separately                                                                                                                                                                                                                                                                                        |
+| Seaya  | Compare segmentation methods, including OpenCV vs PyAV<br>Throwaway test: segment fixed regions on the test dataset<br>Design the test harness, with Ursula<br>Longitudinal: detect artery walls<br>Longitudinal: calculate angle-corrected diameter, with the insonnation angle relative to the vessel wall and handling a missing Z marker<br>Wireframe the UI and start the Figma overlay, with Baoze<br>Team contact with Taha for PM code access (Taha contacts Milo) |
+
 # Raw Meeting Notes
 
 - finished milestone 1, telling taha about it
@@ -20,7 +55,7 @@
 - another mode shows the bottom graph where there’s a line on the ultrasound and the bottom graph shows a snapshot along the line at a given depth over time.
 - regular M mode has no marker
 - marker always appears when there’s velocity of something
-- long line is vertical, two parallel lines is the region of interest, and the diagonal line going through them to make a z (the smaller dotted one) is insonation angle of the angle the Doppler is going at. So Doppler effect at certain depth is reading between the two lines inside that region. So insonnation angle should be parallel to vessel wall
+- long line is vertical, two parallel lines is the region of interest, and the diagonal line going through them to make a z (the smaller dotted one) is insonnation angle of the angle the Doppler is going at. So Doppler effect at certain depth is reading between the two lines inside that region. So insonnation angle should be parallel to vessel wall
 - he wants us to calculate angle of it relative to vessel walls
 - right side has info about probe, like depth, current angle of insonnation (not relative to vessel wall but the actual machine inside the operator thingy that is sending the waves)
 - M mode is available transverse and longitudinal
