@@ -4,6 +4,44 @@
 
 ---
 
+## Summary
+
+- Taha likes the UI overall.
+- The team told Taha that some deliverables were changed because they made less sense than planned.
+- IP: McMaster University will officially consider the team "Inventors" of our software, which is separate from PM. PM-related work is done under Taha's supervision, and the team signs a form stating it didn't invent PM.
+- A proposal to add the team to the study has been submitted to HiREB. The team should be on the study by 11-30.
+- The team can join data collection as subjects or as experimenters (tilt table, charting software), booked 6am to noon.
+- Danny Green problems: vessel bounds are adjusted while the video keeps playing, playback speed depends on the CPU, and there's no pause. Our software needs full playback controls.
+- In Danny Green, manual adjustment applies to the ROI, not the vessel wall. Wall detection is fully automatic.
+- Automated vessel detection is the preferred route. Tolerance ideas (not decided):
+  - Seaya: show a grid of how various tolerances change the edge detection; the user selects the one that looks best, and it propagates.
+  - Kyle: likes the grid, but the user should also be able to fine-tune it further (e.g. slider or text input).
+- Bad data: process it as if it's good and don't flag it. PM decides what to do with it.
+- PM reads each system's output through a Python reader file. Danny Green's output is a CSV with metadata, a header row, then the data. We'd add a reader file for our output CSV; this is separate from how PM calls us.
+- DICOM records only the last 10 s, so stick with MP4 (Camtasia). DICOM is a far-future extension.
+
+## Implications
+
+M4: Final Implementation Plan.
+
+- **PM integration design (All):** our output CSV can follow Danny Green's structure (metadata, header row, data), with a new PM reader file configured for it. Bad data isn't flagged on our side. PM-facing work is done under Taha.
+- **UI (Baoze):** full playback controls (pause, fast forward, speed independent of CPU) are now a requirement. How manual adjustments work is still undecided.
+- **B-mode design (Seaya, Kyle, Baoze):** automated wall detection is the preferred route; the tolerance grid is an open idea.
+- **Extensions feasibility (All):** DICOM moves to far-future.
+- **M3 error-state list:** the "dicom video" item in `Milestone_3.md` is now low priority.
+- **Course deadlines:** Advisor Meeting 2 is on 11-26 and the POC demo is on 12-03.
+
+## Action Items
+
+| Person | Action Items |
+| --- | --- |
+| Baoze | Finalize the UI, including full playback controls<br>Finalize B-mode design, with Seaya and Kyle<br>PM integration design, final design document, demo and extensions feasibility (all) |
+| Kyle | Get a sample Danny Green output CSV to model our output on<br>Discuss the tolerance-selection grid further, with Seaya<br>Finalize Doppler design, with Ursula<br>Finalize B-mode design, with Seaya and Baoze<br>PM integration design, final design document, demo and extensions feasibility (all) |
+| Ursula | Follow up with Taha on whether Dr. Baraa can save full DICOM videos<br>Finalize Doppler design, with Kyle<br>PM integration design, final design document, demo and extensions feasibility (all) |
+| Seaya | Discuss the tolerance-selection grid further, with Kyle<br>Finalize B-mode design, with Kyle and Baoze<br>PM integration design, final design document, demo and extensions feasibility (all) |
+
+## Notes
+
 - told him that some deliverables didn’t make as much sense so we modified what we were doing
 - he likes the ui overall
 - asks what we’re demonstrating. We explain POC demo for class

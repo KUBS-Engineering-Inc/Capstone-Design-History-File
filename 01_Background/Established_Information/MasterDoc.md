@@ -41,7 +41,8 @@ The software processes ultrasound recordings in two primary views, treating each
     - Regular M-mode has no Z marker.
   - Middle envelope support for Doppler to classify monophasic, biphasic, and triphasic signals.
   - Calculation of morphological data from Doppler waveforms.
-  - DICOM input support.
+  - DICOM input support (far-future extension, including use of DICOM metadata).
+    - DICOM currently records only the last 10 seconds, so it is not usable for now. Taha will ask Dr. Baraa whether the full video can be saved.
     - The Terason can save recordings as DICOM files under a patient file (e.g. TTSA_001). Raw data is stored as metadata.
     - Recordings are saved as a series of B-mode frames and exported as a cine loop. DICOM viewers show them frame by frame.
     - DICOM toolboxes exist for MATLAB, R, Python and ImageJ.
@@ -71,7 +72,7 @@ The software processes ultrasound recordings in two primary views, treating each
 ### 2.2 Input Data Specifications
 
 - **Ultrasound Machine:** Terason uSmart 3300 with a linear probe. Depth ranges from 2 cm to 12 cm.
-- **Current Recording Method:** Videos are screen recordings made with Camtasia, not exported from the ultrasound machine.
+- **Current Recording Method:** Videos are screen recordings made with Camtasia, not exported from the ultrasound machine. MP4 (Camtasia) is the input format for now; see DICOM under 1.3.
 - **Format:** Constant frame rate ultrasound video files (approx. 6 GB for 30 mins, 12 GB per person).
 - **Screen Layout:**
   - **B-mode:** Always on. It is the main video image.
@@ -108,6 +109,8 @@ The software processes ultrasound recordings in two primary views, treating each
 - **Event Identification:** Identify systole (pulse up/peak) and diastole. Separate the ECG to detect R peaks.
 - **Pulsatility Index:** (systolic − diastolic) / mean.
 - **UI States:** The interface must handle states for process, edit, pause, cancel, and undo.
+- **Playback Controls:** Full user control of video playback, including pause, fast forward and playback speed. Speed must not depend on CPU speed (a Danny Green limitation; see 2.6).
+  - How manual adjustments will work is not yet decided.
 
 ### 2.4 Physiological & Anatomical Rules
 
@@ -121,24 +124,33 @@ The software processes ultrasound recordings in two primary views, treating each
 ### 2.5 System Integration (PhysioMerge / PM)
 
 - **Architecture Goal:** Transition from `Video -> Danny Green -> CSV -> PM` to a setup where PM utilizes our software.
-- **Interaction Model:** The software will operate as a standalone service. PhysioMerge will call the software (e.g., via CLI), execute commands, and provide the data as necessary.
+- **Interaction Model:** The software will operate as a standalone service. PhysioMerge will call the software (e.g., via CLI), execute commands, and provide the data as necessary. The exact calling mechanism is not yet decided.
 - **Existing PM Capabilities to Leverage:** Real-time CSV building, morphology calculations (per cardiac cycle), measurements (mean, systole, diastole), data deletion/filtering for messy signals, error correction via PM's `check` command.
 - **Invocation:** PM calls our software. We are not called as a package or imported by PM. We act as a black box that takes input and returns output, so other systems could use us the same way.
-- **Output Format:** PM expects a CSV with metadata at the top and the biometric data below, so this is what we return when PM calls us. The exact format is not yet defined.
+- **Output Format:** PM expects a CSV with metadata at the top and the biometric data below, so this is what we return when PM calls us. Danny Green's output follows this structure: top-level metadata, then a header row, then the data rows. The exact format is not yet defined.
+- **PM Reader File:** PM reads each system's output through a Python reader file that defines how to read that system's data. We add a new reader file with the configuration for our output CSV, so PM can use the output once it exists. This is separate from how PM calls our software.
+- **Bad Data:** Process bad data as if it were good ("do what you can"). Don't flag it; PM decides what to do with it.
 - **Video Source:** Our application is not concerned with where the video comes from.
 - **New PM Commands:** If we need a command PM doesn't have, we contribute it directly to PM so everyone benefits. This is expected to be very unlikely, since PM already covers what we need.
 - **Deleted Data:** PM automatically cleans messy data and records whether data was deleted as a true/false flag in the file metadata. PM keeps the log of what was deleted so it can be reviewed later and is never lost. We receive this field and do not log deletions ourselves.
 - **Data Sent to PM:** Diameter, CSA, Doppler, and ECG. Error checking is already handled by PM.
-- **Code Ownership:** The university now owns PhysioMerge. Taha is no longer the code owner; PM code access goes through Milo.
+- **Code Ownership:** The university now owns PhysioMerge. Taha is no longer the code owner; PM code access goes through MILO.
+- **IP & Supervision:**
+  - McMaster University will officially consider the team "Inventors" (a university term with formal meaning) of our software, which is separate from PM.
+  - Any work that applies to PM is done with Taha, under his supervision.
+  - The team signs a form stating it did not invent PM.
 
 ### 2.6 Validation & Testing Baseline
 
 - **Legacy Software Comparison:** Outputs will be tested against the "Danny Green" software.
   - _Note on Danny Green:_ Written in Fortran ("4tran"), capable of perpendicular diameter measurement, but **cannot** do cross-sectional area (CSA).
   - The CD box at the top of Danny Green does not display accurate values.
+  - Users adjust the vessel bound in real time while frames keep playing. Playback speed depends on CPU speed and cannot be controlled, and there is no pausing. The lab needs this improved.
+  - Users choose the ROI that is analyzed but have no control over vessel wall detection.
   - Liz knows the Danny Green software.
 - **Test Data:** A specific test dataset with a ground truth is being designed. The UI prototype will initially be tested specifically on Flow-Mediated Dilation (FMD) video.
-- **Ethics & Data Access:** The team will be added to Taha's study ethics. After that, the team can use data from other participants and publish (e.g. at undergrad conferences). Until then, nothing can be published.
+- **Ethics & Data Access:** A proposal to add the team to Taha's study has been submitted to HiREB (Hamilton Integrated Research Ethics Board). The team is expected to be officially on the study by 2026-11-30. After that, the team can use data from other participants and publish (e.g. at undergrad conferences). Until then, nothing can be published.
+- **Data Collection:** Team members can take part as subjects and as experimenters. Taha runs the experiment; helpers run the tilt table or the charting software. Sessions are booked through the lab calendar, 6am to noon.
 
 ---
 
